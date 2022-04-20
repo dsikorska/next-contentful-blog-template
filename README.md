@@ -1,0 +1,1 @@
+Original author: https://github.com/techhiveIO/nextjs-blog-starter-kit
