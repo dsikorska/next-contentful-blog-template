@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import Script from 'next/script';
 
-import './styles.scss';
-import './home.scss';
+import './global.css';
 import { useRouter } from 'next/router';
 import { trackPageView, GA_TRACKING_ID } from '../core/gtag';
 import Footer from '../shared/components/footer/footer.component';

@@ -31,16 +31,16 @@ const PostPage: NextPage<Props, any> = (props: Props) => {
 
   return (
     <Layout metaTags={postMetaTags}>
-      <div className="post-container" id="post-container">
-        <div className="post-header">
+      <div id="post-container">
+        <div>
           <h1>{props.article.title}</h1>
-          <div className="author">
+          <div>
             <p>Written by {props.article.author.name}</p>
           </div>
         </div>
-        <ReactMarkdown className="markdown" children={props.article.body} />
+        <ReactMarkdown children={props.article.body} />
       </div>
-      <div className="suggestions">{renderCards(props.suggestedArticles)}</div>
+      <div>{renderCards(props.suggestedArticles)}</div>
     </Layout>
   );
 };

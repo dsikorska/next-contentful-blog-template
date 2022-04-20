@@ -2,8 +2,6 @@ import React, { FunctionComponent } from 'react';
 import Link from 'next/link';
 import { getHref, getNavigationLink } from '../../helpers/helper';
 
-import styles from './card.module.scss';
-
 type Props = {
   info: {
     id: string;
@@ -22,16 +20,16 @@ const Card: FunctionComponent<Props> = ({ info }) => {
   };
 
   return (
-    <div className={styles.card}>
-      <div className={styles.card__header} style={cardBGStyles} />
-      <div className={styles.card__body}>
-        <h3 className={styles.card__title}>{info.title}</h3>
-        <p className={styles.card__text}>{info.description}</p>
+    <div>
+      <div style={cardBGStyles} />
+      <div>
+        <h3>{info.title}</h3>
+        <p>{info.description}</p>
       </div>
 
-      <div className={styles.card__footer}>
+      <div>
         <Link href={getHref()} as={getNavigationLink(info.slug)}>
-          <a className={styles.card__action}>Explore</a>
+          <a>Explore</a>
         </Link>
       </div>
     </div>

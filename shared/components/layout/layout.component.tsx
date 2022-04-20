@@ -2,8 +2,6 @@ import React, { FunctionComponent, Fragment, ReactNode } from 'react';
 import { MetaTags } from '../../../interfaces/meta-tags';
 import Meta from '../meta';
 
-import styles from './layout.module.scss';
-
 type Props = {
   metaTags: MetaTags;
   children: ReactNode;
@@ -12,9 +10,9 @@ const Layout: FunctionComponent<Props> = ({ metaTags, children }) => {
   return (
     <Fragment>
       <Meta tags={metaTags} />
-      <div className={styles.layout}>
-        <main>{children}</main>
-      </div>
+      <main className="max-w-full mx-auto md:max-w-[80%] lg:max-w-[70%] py-4">
+        {children}
+      </main>
     </Fragment>
   );
 };
