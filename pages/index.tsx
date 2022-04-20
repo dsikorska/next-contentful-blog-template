@@ -50,23 +50,21 @@ const IndexPage: NextPage<Props, any> = (props: Props) => {
 
   return (
     <Layout metaTags={defaultMetaTags}>
-      <div>
-        <div>
+      <div className="flex flex-row flex-wrap">
+        <div className="mr-4 grow">
           <h1>Latest posts</h1>
           <div>{cards(entries)}</div>
+          <Paginator
+            handlePaginationChange={(event) => updatePage(event)}
+            range={range}
+            skip={page}
+          />
         </div>
         <div>
           <TagFilters
             tags={tags}
             updatePage={handleTagChosen}
             selectedTagId={tag}
-          />
-        </div>
-        <div>
-          <Paginator
-            handlePaginationChange={(event) => updatePage(event)}
-            range={range}
-            skip={page}
           />
         </div>
       </div>

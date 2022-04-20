@@ -49,7 +49,7 @@ const PaginatorComponent: FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      <div>
+      <div className="text-center">
         {range.length > 1 ? (
           <button onClick={moveToNextPage}>
             <span>{'<'}</span> <span> Previous </span>

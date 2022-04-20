@@ -23,7 +23,7 @@ const TagFilters: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <h2>Filter By Tags.</h2>
+      <h2>Tags</h2>
       <div>
         <div onClick={() => handleTagChosen('')}>All</div>
         {tags.map(renderTag)}
