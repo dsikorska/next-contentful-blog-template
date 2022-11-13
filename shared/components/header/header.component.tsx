@@ -1,19 +1,26 @@
 import React, { FunctionComponent } from 'react';
 import Link from 'next/link';
+import { Box, Typography } from '@mui/material';
+import styled from '@emotion/styled';
+
+const Logo = styled.img`
+  max-height: 300px;
+  width: auto,
+  object-fit: cover
+`;
 
 const Header: FunctionComponent = () => {
-  return (
-    <div className="max-w-full mx-auto md:max-w-[80%] lg:max-w-[70%]">
-      <Link href="/">
-        <img
-          src="https://www.techhive.io/static/brand/logo-masterclass.svg"
-          alt="logo"
-        />
-      </Link>
+	return (
+		<Box textAlign="center">
+			<Box>
+				<Link href="/">
+					<Logo src="/img/logo.jpg" alt="Logo" />
+				</Link>
+			</Box>
 
-      <h3>TechHive.IO: NextJs Static Starter Kit.</h3>
-    </div>
-  );
+			<Typography variant="h1">{process.env.SITE_DESCRIPTION}</Typography>
+		</Box>
+	);
 };
 
 export default Header;

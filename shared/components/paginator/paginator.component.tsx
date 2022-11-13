@@ -1,71 +1,43 @@
-import React, { FunctionComponent, Fragment, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Box, Pagination, Stack } from '@mui/material';
 
 type Props = {
-  skip?: number;
-  range: number[];
-  handlePaginationChange: (number: number) => any;
+	skip?: number;
+	range: number;
+	handlePaginationChange: (number: number) => void;
 };
 const PaginatorComponent: FunctionComponent<Props> = ({
-  skip,
-  range,
-  handlePaginationChange
+	skip,
+	range,
+	handlePaginationChange
 }) => {
-  skip = skip ? skip : 0;
+	skip = skip ? skip : 0;
 
-  const [page, setPageNumber] = useState(1);
+	const [page, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    return setPageNumber(skip);
-  }, [skip]);
+	useEffect(() => {
+		return setPageNumber(skip);
+	}, [skip]);
 
-  const moveToNextPage = () => {
-    if (page > 1) {
-      handlePaginationChange(page - 1);
-      return setPageNumber(page - 1);
-    }
+	const handlePageChange = (
+		event: React.ChangeEvent<unknown>,
+		value: number
+	) => {
+		handlePaginationChange(value);
+		setPageNumber(value);
+	};
 
-    return null;
-  };
-
-  const moveToPreviousPage = () => {
-    if (page < range[range.length - 1]) {
-      handlePaginationChange(page + 1);
-      return setPageNumber(page + 1);
-    }
-
-    return null;
-  };
-
-  const moveToPage = (pageNumber: number) => {
-    handlePaginationChange(pageNumber);
-    return setPageNumber(pageNumber);
-  };
-
-  const renderPageIndicators = (num, index) => (
-    <span key={index} onClick={() => moveToPage(num)}>
-      {num}
-    </span>
-  );
-
-  return (
-    <Fragment>
-      <div className="text-center">
-        {range.length > 1 ? (
-          <button onClick={moveToNextPage}>
-            <span>{'<'}</span> <span> Previous </span>
-          </button>
-        ) : null}
-
-        {range.map(renderPageIndicators)}
-
-        {range.length > 1 ? (
-          <button onClick={moveToPreviousPage}>
-            <span> Next</span> <span>{'>'}</span>
-          </button>
-        ) : null}
-      </div>
-    </Fragment>
-  );
+	return (
+		<Stack spacing={2}>
+			<Pagination
+				variant="outlined"
+				shape="rounded"
+				count={range}
+				page={page}
+				onChange={handlePageChange}
+			/>
+		</Stack>
+	);
 };
 
 export default PaginatorComponent;

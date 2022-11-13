@@ -1,5 +1,5 @@
 export function concatenateStrings(...args: string[]): string {
-  return args.join(',');
+	return args.join(',');
 }
 
 export const getNavigationLink = (slug): string => `/post/${slug}`;

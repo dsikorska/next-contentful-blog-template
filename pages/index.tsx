@@ -10,87 +10,87 @@ import { BlogPost } from '../interfaces/post';
 import Card from '../shared/components/card/card.component';
 import Paginator from '../shared/components/paginator/paginator.component';
 import TagFilters from '../shared/components/tag-filters/tag-filters.component';
-
-const calculateRange = (length) => Array.from({ length }, (v, k) => k + 1);
+import { Tag } from '../interfaces/tag';
 
 type Props = {
-  entries: BlogPost[];
-  tags: { id: string; name: string }[];
-  url: any;
-  total: number;
-  skip: number;
-  limit: number;
-  page?: number;
+	entries: BlogPost[];
+	tags: Tag[];
+	url: any;
+	total: number;
+	skip: number;
+	limit: number;
+	page?: number;
 };
 
 const cards = (entries) =>
-  entries.map((entry, index) => <Card info={entry} key={index} />);
+	entries.map((entry, index) => <Card info={entry} key={index} />);
 
 const IndexPage: NextPage<Props, any> = (props: Props) => {
-  const router = useRouter();
-  const entries = props.entries.length ? props.entries : [];
-  const tags = props.tags || [];
-  const total = props.total;
+	const router = useRouter();
+	const entries = props.entries.length ? props.entries : [];
+	const tags = props.tags || [];
+	const total = props.total;
 
-  const limit = props.limit;
-  const rangeLimit = Math.ceil(total / limit);
-  const range = calculateRange(rangeLimit);
+	const limit = props.limit;
+	const range = Math.ceil(total / limit);
 
-  const [page, updatePage] = useState(props.page ? props.page : 1);
-  const [tag, updateTag] = useState('');
+	const [page, updatePage] = useState(props.page ? props.page : 1);
+	const [tag, updateTag] = useState<Tag>();
 
-  useEffect(() => {
-    void router.push({ pathname: '/', query: { page: page, tag: tag } });
-  }, [page, tag]);
+	useEffect(() => {
+		void router.push({ pathname: '/', query: { page: page, tag: tag?.name } });
+	}, [page, tag]);
 
-  const handleTagChosen = (tag) => {
-    updatePage(1);
-    updateTag(tag);
-  };
+	const handleTagChosen = (tagId) => {
+		updatePage(1);
+		const selectedTag = tags.find((x) => x.id === tagId);
+		updateTag(selectedTag);
+	};
 
-  return (
-    <Layout metaTags={defaultMetaTags}>
-      <div className="flex flex-row flex-wrap">
-        <div className="mr-4 grow">
-          <h1>Latest posts</h1>
-          <div>{cards(entries)}</div>
-          <Paginator
-            handlePaginationChange={(event) => updatePage(event)}
-            range={range}
-            skip={page}
-          />
-        </div>
-        <div>
-          <TagFilters
-            tags={tags}
-            updatePage={handleTagChosen}
-            selectedTagId={tag}
-          />
-        </div>
-      </div>
-    </Layout>
-  );
+	return (
+		<Layout metaTags={defaultMetaTags}>
+			<div>
+				<div>
+					<h2>Latest posts</h2>
+					<div>{cards(entries)}</div>
+					<Paginator
+						handlePaginationChange={(event) => updatePage(event)}
+						range={range}
+						skip={page}
+					/>
+				</div>
+				<div>
+					<TagFilters
+						tags={tags}
+						updatePage={handleTagChosen}
+						selectedTagId={tag?.id}
+					/>
+				</div>
+			</div>
+		</Layout>
+	);
 };
 
 IndexPage.getInitialProps = async ({ query }) => {
-  const contentfulService = new ContentfulService();
-  let page = 1;
+	const contentfulService = new ContentfulService();
+	let page = 1;
 
-  if (query.page) {
-    page = parseInt(query.page + '');
-  }
+	if (query.page) {
+		page = parseInt(query.page + '');
+	}
 
-  const { entries, total, skip, limit } =
-    await contentfulService.getBlogPostEntries({
-      tag: query.tag ? query.tag.toString() : '',
-      skip: (page - 1) * 3,
-      limit: 3
-    });
+	const { tags } = await contentfulService.getAllTags();
 
-  // TODO: need to move outside
-  const { tags } = await contentfulService.getAllTags();
+	const selectedTag = tags.find((x) => x.name === query.tag)?.id;
 
-  return { page, tags, entries, total, skip, limit };
+	const { entries, total, skip, limit } =
+		await contentfulService.getBlogPostEntries({
+			tag: selectedTag ?? '',
+			skip: (page - 1) * 3,
+			limit: 3
+		});
+
+	return { page, tags, entries, total, skip, limit };
 };
 
 export default IndexPage;

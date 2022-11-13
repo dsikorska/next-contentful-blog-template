@@ -2,10 +2,10 @@ import { PageType, RobotsContent, MetaTags } from '../interfaces/meta-tags';
 import { concatenateStrings } from '../shared/helpers/helper';
 
 export const defaultMetaTags: MetaTags = {
-  canonical: `${process.env.DOMAIN_PUBLIC}`,
-  description: 'Pushing you to the edge of technological innovation',
-  image: 'https://www.techhive.io/image.png',
-  robots: concatenateStrings(RobotsContent.index, RobotsContent.follow),
-  title: 'Techhive.IO',
-  type: PageType.website
+	canonical: `${process.env.PUBLIC_DOMAIN}`,
+	description: process.env.SITE_DESCRIPTION,
+	image: `${process.env.PUBLIC_DOMAIN}/img/logo.jpg`,
+	robots: concatenateStrings(RobotsContent.index, RobotsContent.follow),
+	title: process.env.SITE_NAME,
+	type: PageType.website
 };
