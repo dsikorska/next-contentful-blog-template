@@ -18,16 +18,21 @@ const TagFilters: FunctionComponent<Props> = ({
 
 	const renderTag = (tag, index) => (
 		<Chip
+			variant={getChipVariant(tag.id)}
 			label={tag.name}
 			key={index}
 			onClick={() => handleTagChosen(tag.id)}
 		/>
 	);
 
+	const getChipVariant = (tagId) => {
+		return selectedTagId === tagId ? 'filled' : 'outlined';
+	};
+
 	return (
 		<Box textAlign="center">
 			<Typography variant="h2" py={1}>
-				Tags
+				Filter by tags
 			</Typography>
 			<Stack
 				spacing={1}
@@ -35,7 +40,11 @@ const TagFilters: FunctionComponent<Props> = ({
 				justifyContent="center"
 				alignItems="center"
 			>
-				<Chip label="All" onClick={() => handleTagChosen('')} />
+				<Chip
+					label="All"
+					onClick={() => handleTagChosen(undefined)}
+					variant={getChipVariant(undefined)}
+				/>
 				{tags.map(renderTag)}
 			</Stack>
 		</Box>

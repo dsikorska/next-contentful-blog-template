@@ -28,7 +28,7 @@ const PaginatorComponent: FunctionComponent<Props> = ({
 	};
 
 	return (
-		<Stack spacing={2}>
+		<Stack spacing={2} justifyContent="center" alignItems="center">
 			<Pagination
 				variant="outlined"
 				shape="rounded"

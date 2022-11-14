@@ -11,6 +11,7 @@ import Card from '../shared/components/card/card.component';
 import Paginator from '../shared/components/paginator/paginator.component';
 import TagFilters from '../shared/components/tag-filters/tag-filters.component';
 import { Tag } from '../interfaces/tag';
+import { Container, Grid, Box, Typography } from '@mui/material';
 
 type Props = {
 	entries: BlogPost[];
@@ -49,24 +50,31 @@ const IndexPage: NextPage<Props, any> = (props: Props) => {
 
 	return (
 		<Layout metaTags={defaultMetaTags}>
-			<div>
-				<div>
-					<h2>Latest posts</h2>
-					<div>{cards(entries)}</div>
-					<Paginator
-						handlePaginationChange={(event) => updatePage(event)}
-						range={range}
-						skip={page}
-					/>
-				</div>
-				<div>
-					<TagFilters
-						tags={tags}
-						updatePage={handleTagChosen}
-						selectedTagId={tag?.id}
-					/>
-				</div>
-			</div>
+			<Grid container spacing={2}>
+				<Grid item xs={12} md={2} />
+				<Grid item xs={12} md={8}>
+					<Container>
+						<Box textAlign="center">
+							<Typography variant="h2">Latest posts</Typography>
+							<Box py={2}>{cards(entries)}</Box>
+							<Paginator
+								handlePaginationChange={(event) => updatePage(event)}
+								range={range}
+								skip={page}
+							/>
+						</Box>
+					</Container>
+				</Grid>
+				<Grid item xs={12} md={2}>
+					<Container>
+						<TagFilters
+							tags={tags}
+							updatePage={handleTagChosen}
+							selectedTagId={tag?.id}
+						/>
+					</Container>
+				</Grid>
+			</Grid>
 		</Layout>
 	);
 };
